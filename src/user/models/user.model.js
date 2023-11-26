@@ -62,6 +62,20 @@ class User {
         return rows;
     }
 
+    static async findUkm() {
+        const sql = `SELECT * FROM organization_profile`;
+        const [rows] = await pool.execute(sql);
+
+        return rows;
+    }
+
+    static async findUkmById(id) {
+        const sql = `SELECT * FROM organization_profile WHERE organization_name LIKE  "${id}"`;
+        const [rows] = await pool.execute(sql);
+
+        return rows;
+    }
+
     static async findAchievement() {
         const sql = `SELECT * FROM achievement`;
         const [rows] = await pool.execute(sql);

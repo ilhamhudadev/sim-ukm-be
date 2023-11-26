@@ -31,6 +31,37 @@ const getUsersById = async (req, res) => {
     }
 };
 
+const getUkm = async (req, res) => {
+    try {
+        const users = await User.findUkm();
+        console.log(users);
+        res.send({
+            statusCode: 200,
+            statusMessage: 'Ok',
+            message: 'Successfully retrieved.',
+            data: users,
+        });
+    } catch (err) {
+        res.status(500).send({ statusCode: 500, statusMessage: 'Internal Server Error', message: null, data: null });
+    }
+};
+
+const getUkmById = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const users = await User.findUkmById(id);
+        console.log(users);
+        res.send({
+            statusCode: 200,
+            statusMessage: 'Ok',
+            message: 'Successfully retrieved.',
+            data: users,
+        });
+    } catch (err) {
+        res.status(500).send({ statusCode: 500, statusMessage: 'Internal Server Error', message: null, data: null });
+    }
+};
+
 const getAchievement = async (req, res) => {
     try {
         const users = await User.findAchievement();
@@ -267,4 +298,6 @@ module.exports = {
     getAchievement,
     getStructureById,
     getStructure,
+    getUkmById,
+    getUkm,
 };

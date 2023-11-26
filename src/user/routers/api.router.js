@@ -5,8 +5,10 @@ const apiController = require('../controllers/api.controller');
 const router = express.Router();
 
 // Endpoint for getting all the records
-router.get('/user/', apiController.getUsers);
-router.get('/user/:id', apiController.getUsersById);
+// router.get('/user/', apiController.getUsers);
+// router.get('/user/:id', apiController.getUsersById);
+router.get('/user/', apiController.getUkm);
+router.get('/user/:id', apiController.getUkmById);
 router.get('/achievement/', apiController.getAchievement);
 router.get('/achievement/:id', apiController.getAchievementById);
 router.get('/achievement/', apiController.getStructure);
