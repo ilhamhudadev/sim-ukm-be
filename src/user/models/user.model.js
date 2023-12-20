@@ -62,6 +62,50 @@ class User {
         return rows;
     }
 
+    static async findCount() {
+        const sql = `SELECT * FROM organization_profile`;
+        const [rows] = await pool.execute(sql);
+
+        return rows;
+    }
+
+    static async findCountById(id) {
+        const sql = `SELECT
+        u.user_id,
+        COUNT(a.*) AS achievement_count,
+        COUNT(cl.*) AS contact_list_count,
+        COUNT(dl.*) AS decision_letter_count,
+        COUNT(e.*) AS event_count,
+        COUNT(op.*) AS organization_profile_count,
+        COUNT(os.*) AS organization_structure_count,
+        COUNT(p.*) AS proposal_count,
+        COUNT(rr.*) AS responsibility_report_count
+    FROM
+        user u
+    LEFT JOIN
+        achievement a ON u.user_id = a.user_id
+    LEFT JOIN
+        contact_list cl ON u.user_id = cl.user_id
+    LEFT JOIN
+        decision_letter dl ON u.user_id = dl.user_id
+    LEFT JOIN
+        event e ON u.user_id = e.user_id
+    LEFT JOIN
+        organization_profile op ON u.user_id = op.user_id
+    LEFT JOIN
+        organization_structure os ON u.user_id = os.user_id
+    LEFT JOIN
+        proposal p ON u.user_id = p.user_id
+    LEFT JOIN
+        responsibility_report rr ON u.user_id = rr.user_id
+    GROUP BY
+        u.user_id;
+    `;
+        const [rows] = await pool.execute(sql);
+
+        return rows;
+    }
+
     static async findUkm() {
         const sql = `SELECT * FROM organization_profile`;
         const [rows] = await pool.execute(sql);

@@ -300,4 +300,5 @@ module.exports = {
     getStructure,
     getUkmById,
     getUkm,
+    addUser,
 };
