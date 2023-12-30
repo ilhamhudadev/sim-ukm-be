@@ -12,19 +12,27 @@ class EventModel {
     }
 
     static async findEventById(id) {
-        const sql = `SELECT * FROM event WHERE id = "${id}"`;
+        const sql = `SELECT event.*, organization_profile.organization_name, organization_profile.short_name
+        FROM event
+        JOIN organization_profile ON event.user_id = organization_profile.id
+        WHERE event.id = "${id}"`;
         const [result] = await pool.execute(sql);
         return result;
     }
 
     static async findByUserId(userId) {
-        const sql = `SELECT * FROM event WHERE user_id = "${userId}"`;
+        const sql = `SELECT event.*, organization_profile.organization_name, organization_profile.short_name
+        FROM event
+        JOIN organization_profile ON event.user_id = organization_profile.id
+        WHERE event.user_id = "${userId}"`;
         const [result] = await pool.execute(sql);
         return result;
     }
 
     static async findByAll() {
-        const sql = 'SELECT * FROM event';
+        const sql = `SELECT event.*, organization_profile.organization_name, organization_profile.short_name
+        FROM event
+        JOIN organization_profile ON event.user_id = organization_profile.id`;
         const [rows, fields] = await pool.execute(sql);
 
         return rows;

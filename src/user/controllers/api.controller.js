@@ -15,6 +15,70 @@ const getUsers = async (req, res) => {
     }
 };
 
+const postLoginUKM = async (req, res) => {
+    const { email, password, } = req.body;
+    try {
+        const users = await User.postLoginAPIUKM(email, password,);
+        console.log(users);
+        res.send({
+            statusCode: 200,
+            statusMessage: 'Ok',
+            message: 'Successfully retrieved.',
+            data: users,
+        });
+    } catch (err) {
+        res.status(500).send({ statusCode: 500, statusMessage: 'Internal Server Error', message: null, data: null });
+    }
+};
+
+const postLoginAdmin = async (req, res) => {
+    const { email, password, } = req.body;
+    try {
+        const users = await User.postLoginAPIAdmin(email, password,);
+        console.log(users);
+        res.send({
+            statusCode: 200,
+            statusMessage: 'Ok',
+            message: 'Successfully retrieved.',
+            data: users,
+        });
+    } catch (err) {
+        res.status(500).send({ statusCode: 500, statusMessage: 'Internal Server Error', message: null, data: null });
+    }
+};
+
+
+
+
+const getDashboardData = async (req, res) => {
+    try {     
+        const totalEvent = await User.findTotalEvent();
+        const totalLPJ = await User.findTotalLPJ();
+        const totalOrganisasi = await User.findTotalOrganisasi();
+        const totalProposal = await User.findTotalProposal();
+        const totalSK = await User.findTotalSK();
+        console.log(totalEvent);
+        console.log(totalLPJ);
+        console.log(totalOrganisasi);
+        console.log(totalProposal);
+        console.log(totalSK);
+        res.send({
+            statusCode: 200,
+            statusMessage: 'Ok',
+            message: 'Successfully retrieved.',
+            data: {
+                totalEvent: totalEvent[0],
+                totalLPJ: totalLPJ[0],
+                totalOrganisasi: totalOrganisasi[0],
+                totalProposal: totalProposal[0],
+                totalSK: totalSK[0],
+            },
+        });
+    } catch (err) {
+        res.status(500).send({ statusCode: 500, statusMessage: 'Internal Server Error', message: null, data: null });
+    }
+};
+
 const getUsersById = async (req, res) => {
     const id = req.params.id;
     try {
@@ -301,4 +365,7 @@ module.exports = {
     getUkmById,
     getUkm,
     addUser,
+    getDashboardData,
+    postLoginUKM,
+    postLoginAdmin
 };

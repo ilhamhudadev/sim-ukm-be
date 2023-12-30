@@ -17,13 +17,18 @@ class AchievementModel {
     }
 
     static async findByUserId(userId) {
-        const sql = `SELECT * FROM achievement WHERE user_id = "${userId}"`;
+        const sql = `SELECT achievement.*, organization_profile.organization_name, organization_profile.short_name
+        FROM achievement
+        JOIN organization_profile ON achievement.user_id = organization_profile.id
+        WHERE achievement.user_id = "${userId}"`;
         const [result] = await pool.execute(sql);
         return result;
     }
 
     static async findByAll() {
-        const sql = 'SELECT * FROM achievement';
+        const sql = `SELECT achievement.*, organization_profile.organization_name, organization_profile.short_name
+        FROM achievement
+        JOIN organization_profile ON achievement.user_id = organization_profile.id`;
         const [rows, fields] = await pool.execute(sql);
 
         return rows;

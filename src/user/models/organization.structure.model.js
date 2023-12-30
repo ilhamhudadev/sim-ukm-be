@@ -17,13 +17,18 @@ class OrganizationStructureModel {
     }
 
     static async findByUserId(userId) {
-        const sql = `SELECT * FROM organization_structure WHERE user_id = "${userId}"`;
+        const sql = `SELECT organization_structure.*, organization_profile.organization_name, organization_profile.short_name
+        FROM organization_structure
+        JOIN organization_profile ON organization_structure.user_id = organization_profile.id
+        WHERE organization_structure.user_id = "${userId}"`;
         const [result] = await pool.execute(sql);
         return result;
     }
 
     static async findByAll() {
-        const sql = 'SELECT * FROM organization_structure';
+        const sql = `SELECT organization_structure.*, organization_profile.organization_name, organization_profile.short_name
+        FROM organization_structure
+        JOIN organization_profile ON organization_structure.user_id = organization_profile.id`;
         const [rows, fields] = await pool.execute(sql);
 
         return rows;

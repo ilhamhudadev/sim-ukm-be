@@ -120,6 +120,22 @@ class User {
         return rows;
     }
 
+    static async postLoginAPIUKM(email,password) {
+        const sql = `SELECT * FROM organization_profile
+        WHERE email = '${email}' AND password = '${password}'`;
+        const [rows] = await pool.execute(sql);
+
+        return rows;
+    }
+    static async postLoginAPIAdmin(email,password) {
+        const sql = `SELECT * FROM user
+        WHERE email = '${email}' AND password = '${password}'`;
+        const [rows] = await pool.execute(sql);
+
+        return rows;
+    }
+
+
     static async findAchievement() {
         const sql = `SELECT * FROM achievement`;
         const [rows] = await pool.execute(sql);
@@ -238,6 +254,51 @@ class User {
     // WHERE n.kodematkul = "${id}"`;
     //     return pool.execute(sql);
     // }
+
+    static async findTotalOrganisasi() {
+        const sql = `SELECT 'organization_profile' AS table_name,
+        COUNT(DISTINCT id) AS row_count
+    FROM organization_profile`;
+        const [rows] = await pool.execute(sql);
+
+        return rows;
+    }
+
+    static async findTotalEvent() {
+        const sql = `SELECT 'event' AS table_name,
+        COUNT(DISTINCT id) AS row_count
+    FROM event`;
+        const [rows] = await pool.execute(sql);
+
+        return rows;
+    }
+
+    static async findTotalProposal() {
+        const sql = `SELECT 'proposal' AS table_name,
+        COUNT(DISTINCT id) AS row_count
+    FROM proposal`;
+        const [rows] = await pool.execute(sql);
+
+        return rows;
+    }
+
+    static async findTotalSK() {
+        const sql = `SELECT 'decision_letter' AS table_name,
+        COUNT(DISTINCT id) AS row_count
+    FROM decision_letter`;
+        const [rows] = await pool.execute(sql);
+
+        return rows;
+    }
+
+    static async findTotalLPJ() {
+        const sql = `SELECT 'responsibility_report' AS table_name,
+        COUNT(DISTINCT id) AS row_count
+    FROM responsibility_report`;
+        const [rows] = await pool.execute(sql);
+
+        return rows;
+    }
 }
 
 module.exports = User;

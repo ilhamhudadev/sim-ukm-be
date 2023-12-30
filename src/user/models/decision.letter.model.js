@@ -17,13 +17,18 @@ class DecisionLetterModel {
     }
 
     static async findByUserId(userId) {
-        const sql = `SELECT * FROM decision_letter WHERE user_id = "${userId}"`;
+        const sql = `SELECT decision_letter.*, organization_profile.organization_name, organization_profile.short_name
+        FROM decision_letter
+        JOIN organization_profile ON decision_letter.user_id = organization_profile.id
+        WHERE decision_letter.user_id = "${userId}"`;
         const [result] = await pool.execute(sql);
         return result;
     }
 
     static async findByAll() {
-        const sql = 'SELECT * FROM decision_letter';
+        const sql = `SELECT decision_letter.*, organization_profile.organization_name, organization_profile.short_name
+        FROM decision_letter
+        JOIN organization_profile ON decision_letter.user_id = organization_profile.id`;
         const [rows, fields] = await pool.execute(sql);
 
         return rows;

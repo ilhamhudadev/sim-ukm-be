@@ -14,7 +14,11 @@ const router = express.Router();
 
 // Endpoint for getting all the records
 // router.get('/user/', apiController.getUsers);
-// router.get('/user/:id', apiController.getUsersById);
+router.get('/user/dashboard', apiController.getDashboardData);
+
+router.post('/user/admin/login', apiController.postLoginAdmin);
+
+router.post('/user/ukm/login', apiController.postLoginUKM);
 
 // Organization
 router.get('/organization/', apiOrganizationController.getOrganizationAll);

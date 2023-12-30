@@ -17,13 +17,18 @@ class ProposalModel {
     }
 
     static async findByUserId(userId) {
-        const sql = `SELECT * FROM proposal WHERE user_id = "${userId}"`;
+        const sql = `SELECT proposal.*, organization_profile.organization_name, organization_profile.short_name
+        FROM proposal
+        JOIN organization_profile ON proposal.user_id = organization_profile.id
+        WHERE proposal.user_id = "${userId}"`;
         const [result] = await pool.execute(sql);
         return result;
     }
 
     static async findByAll() {
-        const sql = 'SELECT * FROM proposal';
+        const sql = `SELECT proposal.*, organization_profile.organization_name, organization_profile.short_name
+        FROM proposal
+        JOIN organization_profile ON proposal.user_id = organization_profile.id`;
         const [rows, fields] = await pool.execute(sql);
 
         return rows;
